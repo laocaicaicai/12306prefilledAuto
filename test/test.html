@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+    <link rel="stylesheet" href="css/a.css"> <!-- 引入a.css样式文件 -->
+
+    <script>
+        window.onload = function () {
+            setTimeout(function () {
+                var ticketDiv = document.querySelector('.ticket-btn');
+                var buyTicketButton = ticketDiv.querySelector('.buy-ticket-button');
+                var qishouText = ticketDiv.querySelector('.qishou-text');
+                if (buyTicketButton) {
+                    buyTicketButton.style.display = 'inline-block';
+                }
+                if (qishouText) {
+                    qishouText.style.display = 'none';
+                }
+            }, 4000); // 5000毫秒即5秒后执行修改样式的操作
+        
+        
+            // 获取“按预填信息购票”按钮元素并添加点击事件监听
+            var buyTicketButton = document.querySelector('.buy-ticket-button');
+            if (buyTicketButton) {
+                buyTicketButton.addEventListener('click', function () {
+                    // 创建提示框的div元素
+                    var alertDialog = document.createElement('div');
+                    alertDialog.setAttribute('role', 'alertdialog');
+                    alertDialog.setAttribute('tabindex', '-1');
+                    alertDialog.setAttribute('aria-label', '提示框');
+                    alertDialog.className ='modal';
+                    alertDialog.style.display = 'block';
+                    alertDialog.style.position = 'fixed';
+                    alertDialog.style.width = '760px';
+                    alertDialog.style.top = '50%';
+                    alertDialog.style.left = '50%';
+                    alertDialog.style.transform = 'translate(-50%, -50%)';
+
+                    // 创建关闭按钮元素
+                    var closeButton = document.createElement('a');
+                    closeButton.href = 'javascript:;';
+                    closeButton.title = '关闭';
+                    closeButton.className ='modal-close';
+                    var closeIcon = document.createElement('i');
+                    closeIcon.className = 'icon icon-close';
+                    closeButton.appendChild(closeIcon);
+                    alertDialog.appendChild(closeButton);
+
+                    // 创建头部元素
+                    var modalHd = document.createElement('div');
+                    modalHd.className ='modal-hd';
+                    var modalTit = document.createElement('div');
+                    modalTit.className ='modal-tit';
+                    modalTit.textContent = '购票信息确认';
+                    modalHd.appendChild(modalTit);
+                    alertDialog.appendChild(modalHd);
+
+                    // 创建主体内容元素
+                    var modalBd = document.createElement('div');
+                    modalBd.innerHTML = `
+                        <div><strong>2025-01-23</strong>（星期四）<strong class="ml-lg">Z186</strong>次  <strong class="ml-lg">深圳东</strong>（20:05开）- <strong>九江</strong>（07:26到）</div>
+                        <div class="panel-table mt mb">
+                            <table class="list-table">
+                                <colgroup>
+                                    <col style="width: 70px">
+                                    <col style="width: 100px">
+                                    <col style="width: 100px">
+                                    <col style="width: 100px">
+                                    <col style="width: 160px">
+                                    <col>
+                                </colgroup>
+                                <tbody><tr>
+                                    <th>序号</th>
+                                    <th>姓名</th>
+                                    <th>票种</th>
+                                    <th>席别</th>
+                                    <th>证件类型</th>
+                                    <th>证件号码</th>
+                                </tr>
+                                
+                                    <tr>
+                                        <td class="br-none">1</td>
+                                        <td class="br-none">老狗</td>
+                                        <td class="br-none">成人票</td>
+                                        <td class="br-none">硬卧</td>
+                                        <td class="br-none">中国居民身份证</td>
+                                        <td class="br-none">3604***********110</td>
+                                    </tr>
+                                
+                            </tbody></table>
+                        </div>
+                        <div style="line-height: 30px;" class="txt-primary">*系统将随机为您申请席位，暂不支持自选席位。</div>
+                        <div style="line-height: 30px;"><i class="icon icon-tips txt-lighter mr"></i>提交订单表示已阅读并同意
+                            <a target="_blank" href="https://mobile.12306.cn/otsmobile/h5/otsbussiness/zhonglao/international-organizationRules/international-organizationRules.html" class="txt-primary zl-a" style="display: none;">《中老铁路跨境旅客联运组织规则》</a>
+                            <a target="_blank" href="https://mobile.12306.cn/otsmobile/h5/otsbussiness/info/transportationRules.html" class="txt-primary">《国铁集团铁路旅客运输规程》</a>
+                            <a target="_blank" href="https://mobile.12306.cn/otsmobile/h5/otsbussiness/info/crossBorderPassenger.html" class="txt-primary gsg-a" style="display: none;">《广深港高速铁路跨境旅客运输组织规则》</a>
+                            <a target="_blank" href="https://mobile.12306.cn/otsmobile/h5/otsbussiness/info/serviceAnnouncement.html" class="txt-primary">《服务条款》</a>
+
+                        </div>
+                    `;
+                    alertDialog.appendChild(modalBd);
+
+                    // 创建底部元素
+                    var modalFt = document.createElement('div');
+                    modalFt.className ='modal-ft';
+                    var cancelButton = document.createElement('a');
+                    cancelButton.href = 'javascript:;';
+                    cancelButton.className = 'btn cancel';
+                    cancelButton.textContent = '取消';
+                    var okButton = document.createElement('a');
+                    okButton.href = 'javascript:;';
+                    okButton.className = 'btn btn-primary ok';
+                    okButton.textContent = '提交订单';
+                    modalFt.appendChild(cancelButton);
+                    modalFt.appendChild(okButton);
+                    alertDialog.appendChild(modalFt);
+
+                    // 将提示框添加到页面的body元素中
+                    document.body.appendChild(alertDialog);
+
+                    // 获取提示框中的“提交订单”按钮并触发点击事件
+                    var okButtonInDialog = alertDialog.querySelector('.ok');
+                    if (okButtonInDialog) {
+                    
+                        okButtonInDialog.addEventListener('click', function () {
+                            // 向本地地址发起GET请求
+                            fetch('http://localhost:9060/my-api')
+                             .then(function (response) {
+                                    console.log('请求状态码:', response.status);
+                                    return response.text();
+                                })
+                             .then(function (data) {
+                                    console.log('返回的数据:', data);
+                                })
+                             .catch(function (error) {
+                                    console.error('请求出错:', error);
+                                });
+                        });
+                    }
+                });
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div class="ticket-btn" style="user-select: text;">
+        <a href="javascript:;" class="btn btn-hollow btn-sm w120 buy-ticket-button" data-index="0" data-seatno="3"
+            style="display: none; user-select: text;">按预填信息购票</a>
+        <span class="txt-lighter qishou-text" style="user-select: text;">1月9日09点
+
+            起售</span>
+    </div>
+</body>
+
+</html>
