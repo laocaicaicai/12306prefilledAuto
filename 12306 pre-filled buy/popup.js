@@ -1,3 +1,6 @@
+let intervalId0; // 第一个定时器的引用
+let intervalId;  // 第二个定时器的引用
+
 document.getElementById('goHome').addEventListener('click', function() {
   // 首先获取当前活动标签页的ID
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -15,8 +18,8 @@ document.getElementById('goHome').addEventListener('click', function() {
 
 function buttonlistener() {
   console.log('listening start...');
-  const intervalId0 = setInterval(() => {
-    const targetButtonSelector = 'a.buy-ticket-button[style*="display: inline-block;"]';
+  intervalId0 = setInterval(() => {
+    const targetButtonSelector = 'a[href="javascript:;"][class="btn btn-hollow btn-sm w120 buy-ticket-button"]';
     const targetButton = document.querySelector(targetButtonSelector);
     if (targetButton && window.getComputedStyle(targetButton).display !== 'none') {
       targetButton.click();
@@ -28,7 +31,7 @@ function buttonlistener() {
   }, 3); // 每隔10毫秒检查一次
 
 
-  const intervalId = setInterval(() => {
+  intervalId = setInterval(() => {
     const submitButton = document.querySelector('a[href="javascript:;"][class="btn btn-primary ok"]');
     if (submitButton) {
       submitButton.click();
@@ -42,4 +45,43 @@ function buttonlistener() {
 }
 
 
+document.getElementById('stopTimers').addEventListener('click', function() {
 
+
+  // 首先获取当前活动标签页的ID
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    var tabId = tabs[0].id;
+    
+    // 使用获取到的tabId来执行脚本
+    chrome.scripting.executeScript({
+      target: {tabId: tabId},
+      func: buttonlistener2
+    }, function() {
+      console.log('stop enabled in tab:', tabId);
+    });
+  });
+
+
+
+});
+
+function buttonlistener2() {
+  console.log('stop ...');
+  // 停止两个定时器
+  if (intervalId0 !== undefined) {
+    clearInterval(intervalId0);
+    console.log('first yushou timer stop');
+  }else{
+    console.log('first yushou timer undefined');
+  }
+  if (intervalId !== undefined) {
+    clearInterval(intervalId);
+    console.log('second submit timer stopped');
+  }else{
+    console.log('second submit timer undefined');
+  }
+ 
+  // 可选：重置定时器引用以避免潜在的内存泄漏
+  intervalId0 = undefined;
+  intervalId = undefined;
+}
