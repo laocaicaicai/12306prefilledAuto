@@ -19,15 +19,42 @@ document.getElementById('goHome').addEventListener('click', function() {
 function buttonlistener() {
   console.log('listening start...');
   intervalId0 = setInterval(() => {
+    // const targetButtonSelector = 'a[href="javascript:;"][class="btn btn-hollow btn-sm w120 buy-ticket-button"]';
+    // //当有多种座位类型时，会有多个按钮，只有第一个按钮是被选中【硬座-软座-硬卧】
+    // const targetButton = document.querySelector(targetButtonSelector);
+    // if (targetButton && window.getComputedStyle(targetButton).display !== 'none') {
+    //   targetButton.click();
+    //   console.log('yushou, clicking...');
+    //   clearInterval(intervalId0); // 停止检查
+    // }else{
+    //   console.log('Not found the yushou button, waiting...');
+    // }
+
+    //当有多种座位类型时，选贵的，哈哈
     const targetButtonSelector = 'a[href="javascript:;"][class="btn btn-hollow btn-sm w120 buy-ticket-button"]';
-    const targetButton = document.querySelector(targetButtonSelector);
-    if (targetButton && window.getComputedStyle(targetButton).display !== 'none') {
-      targetButton.click();
-      console.log('yushou, clicking...');
+    const targetButtons = document.querySelectorAll(targetButtonSelector);
+    
+    let maxSeatNoButton = null;
+    let maxSeatNo = -Infinity; // 初始化一个比任何可能的座位号都小的值
+  
+    // 遍历所有匹配的按钮，找到具有最大data-seatno值的按钮
+    targetButtons.forEach(button => {
+      const seatNo = parseInt(button.getAttribute('data-seatno'), 10); // 获取data-seatno属性的值，并转换为整数
+      if (!isNaN(seatNo) && seatNo > maxSeatNo && window.getComputedStyle(button).display !== 'none') {
+        maxSeatNo = seatNo;
+        maxSeatNoButton = button;
+      }
+    });
+  
+    // 如果找到了具有最大data-seatno值的按钮，并且它是可见的，则点击它
+    if (maxSeatNoButton) {
+      maxSeatNoButton.click();
+      console.log('Clicked the button with the highest data-seatno:', maxSeatNo);
       clearInterval(intervalId0); // 停止检查
-    }else{
-      console.log('Not found the yushou button, waiting...');
+    } else {
+      console.log('Not found yushou button, waiting...');
     }
+
   }, 3); // 每隔10毫秒检查一次
 
 
@@ -40,7 +67,7 @@ function buttonlistener() {
     }else{
       console.log('Not found the submit button, waiting...');
     }
-  }, 5); // 每隔10毫秒检查一次
+  }, 2); // 每隔10毫秒检查一次
 
 }
 

@@ -8,22 +8,39 @@
 
     <script>
         window.onload = function () {
-            setTimeout(function () {
+            // setTimeout(function () {
+            //     var ticketDiv = document.querySelector('.ticket-btn');
+            //     var buyTicketButton = ticketDiv.querySelector('.buy-ticket-button');
+            //     var qishouText = ticketDiv.querySelector('.qishou-text');
+            //     if (buyTicketButton) {
+            //         buyTicketButton.style.display = 'inline-block';
+            //     }
+            //     if (qishouText) {
+            //         qishouText.style.display = 'none';
+            //     }
+            // }, 4000); // 5000毫秒即5秒后执行修改样式的操作
+        // 等待5秒钟
+            setTimeout(function() {
+                // 获取所有具有特定class属性的<a>元素
+                var links = document.querySelectorAll('a.btn.btn-hollow.btn-sm.w120.buy-ticket-button');
+                // 遍历这些元素并清空它们的style属性
+                links.forEach(function(link) {
+                    link.setAttribute('style', '');
+                });
+
                 var ticketDiv = document.querySelector('.ticket-btn');
-                var buyTicketButton = ticketDiv.querySelector('.buy-ticket-button');
                 var qishouText = ticketDiv.querySelector('.qishou-text');
-                if (buyTicketButton) {
-                    buyTicketButton.style.display = 'inline-block';
-                }
                 if (qishouText) {
                     qishouText.style.display = 'none';
                 }
-            }, 4000); // 5000毫秒即5秒后执行修改样式的操作
-        
+            }, 5000); // 5000毫秒等于5秒
         
             // 获取“按预填信息购票”按钮元素并添加点击事件监听
-            var buyTicketButton = document.querySelector('.buy-ticket-button');
-            if (buyTicketButton) {
+            // var buyTicketButton = document.querySelector('.buy-ticket-button');
+            //if (buyTicketButton) {
+            const targetButtons = document.querySelectorAll('.buy-ticket-button');
+            targetButtons.forEach(buyTicketButton => {
+
                 buyTicketButton.addEventListener('click', function () {
                     // 创建提示框的div元素
                     var alertDialog = document.createElement('div');
@@ -140,18 +157,38 @@
                         });
                     }
                 });
-            }
+            })
         };
     </script>
 </head>
 
 <body>
-    <div class="ticket-btn" style="user-select: text;">
+    <!-- <div class="ticket-btn" style="user-select: text;">
         <a href="javascript:;" class="btn btn-hollow btn-sm w120 buy-ticket-button" data-index="0" data-seatno="3"
             style="display: none; user-select: text;">按预填信息购票</a>
         <span class="txt-lighter qishou-text" style="user-select: text;">1月9日09点
 
             起售</span>
+    </div> -->
+
+    <div class="ticket-item-buy">
+        <div class="ticket-item-buy-item-drop">
+            <div class="ticket-item-buy-item">
+              <div class="ticket-btn">
+                <a href="javascript:;" class="btn btn-hollow btn-sm w120 buy-ticket-button" style="display: none; user-select: text;" data-index="0" data-seatno="1">按预填信息购票</a>
+                  <span class="txt-lighter qishou-text" style="user-select: text;">1月12日11点起售</span>
+              </div>
+            </div>
+
+            
+            <div class="ticket-item-buy-item">
+              <div class="ticket-btn">
+                <a href="javascript:;" class="btn btn-hollow btn-sm w120 buy-ticket-button" style="display: none; user-select: text;" data-index="0" data-seatno="3">按预填信息购票</a>
+              </div>
+            </div>
+          
+        </div>
+        <!-- <div class="ticket-state txt-lighter" style="position: absolute; top: 50%; left: 200px; margin-top: -12px;">12点30分起售</div> -->
     </div>
 </body>
 
